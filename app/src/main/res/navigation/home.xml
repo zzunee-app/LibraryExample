@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/home"
+    app:startDestination="@id/homeScreen">
+
+    <fragment
+        android:id="@+id/homeScreen"
+        android:name="com.zzunee.shoppingexample.view.favorite.FavoriteFragment"
+        android:label="@string/title_home"
+        app:route="@string/title_home">
+
+        <!-- 즐겨찾기 -> 검색으로 이동 -->
+        <action
+            android:id="@+id/action_favorite_to_search"
+            app:destination="@id/nav_search" />
+
+        <!-- 즐겨찾기 -> 책 상세로 이동 -->
+        <action
+            android:id="@+id/action_favorite_to_detail"
+            app:destination="@id/bookDetailScreen" />
+    </fragment>
+
+    <navigation
+        android:id="@+id/nav_search"
+        app:startDestination="@id/searchScreen">
+
+        <fragment
+            android:id="@+id/searchScreen"
+            android:name="com.zzunee.shoppingexample.view.search.SearchFragment"
+            android:label="@string/title_search"
+            app:route="@string/title_search">
+
+            <!-- 검색 -> 검색 결과로 이동 -->
+            <action
+                android:id="@+id/action_search_to_result"
+                app:destination="@id/bookScreen"
+                app:popUpTo="@id/searchScreen"
+                app:popUpToInclusive="true" />
+        </fragment>
+
+        <fragment
+            android:id="@+id/bookScreen"
+            android:name="com.zzunee.shoppingexample.view.search.SearchBookFragment"
+            android:label="@string/title_result"
+            app:route="@string/title_result">
+
+            <!-- 검색 결과 -> 책 상세로 이동 -->
+            <action
+                android:id="@+id/action_result_to_detail"
+                app:destination="@id/bookDetailScreen" />
+        </fragment>
+    </navigation>
+
+    <fragment
+        android:id="@+id/bookDetailScreen"
+        android:name="com.zzunee.shoppingexample.view.book.BookDetailFragment"
+        android:label="@string/title_book_detail"
+        app:route="@string/title_book_detail">
+    </fragment>
+</navigation>

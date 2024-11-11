@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">ShoppingExample</string>
+    <string name="title_home">홈</string>
+    <string name="title_search">도서 검색</string>
+    <string name="title_result">검색 결과</string>
+    <string name="title_book_detail">책 상세</string>
+    <string name="title_rental_period">대여 기간</string>
+    <string name="title_order">대여 내역</string>
+    <string name="title_description">도서 설명</string>
+    <string name="title_purchase_link">구매 링크 바로가기</string>
+    <string name="hint_search_bar">제목을 입력하세요.</string>
+    <string name="loading">데이터를 로드 중입니다.</string>
+    <string name="search_nothing">검색 결과가 없습니다.</string>
+    <string name="rent_nothing">대여한 책이 없습니다.</string>
+    <string name="favorite_nothing">즐겨찾기한 책이 없습니다.</string>
+    <string name="common_error">문제가 발생했습니다. 잠시 후 다시 시도해주세요.</string>
+    <string name="delete_all">전체 삭제</string>
+    <string name="retry">재시도</string>
+    <string name="cancel">취소</string>
+    <string name="confirm">선택</string>
+</resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/order"
+    app:startDestination="@id/orderScreen">
+
+    <fragment
+        android:id="@+id/orderScreen"
+        android:name="com.zzunee.shoppingexample.view.order.OrderFragment"
+        android:label="@string/title_order"
+        app:route="@string/title_order" />
+</navigation>
