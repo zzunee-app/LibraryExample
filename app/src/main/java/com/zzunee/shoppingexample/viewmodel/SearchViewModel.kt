@@ -2,9 +2,8 @@ package com.zzunee.shoppingexample.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.zzunee.shoppingexample.data.repository.SearchRepository
-import com.zzunee.shoppingexample.data.db.entity.SearchHistory
-import kotlinx.coroutines.flow.MutableStateFlow
+import com.zzunee.shoppingexample.model.db.entity.SearchHistory
+import com.zzunee.shoppingexample.model.repository.base.SearchRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
@@ -19,33 +18,19 @@ class SearchViewModel(private val searchRepository: SearchRepository) : ViewMode
             initialValue = emptyList()
         )
 
-    private val _inputText = MutableStateFlow("")
-    val inputText: StateFlow<String> = _inputText
-
-    fun updateInputText(input: String) {
-        _inputText.value = input
-    }
-
     fun insertHistory(input: String) {
         viewModelScope.launch {
-            searchRepository.insert(
-                SearchHistory(
-                    title = input,
-                    date = Calendar.getInstance().time
-                )
-            )
+            searchRepository.insert(input)
         }
     }
 
-    fun deleteAllHistory() {
+    fun deleteHistory(history: SearchHistory? = null) {
         viewModelScope.launch {
-            searchRepository.delete()
-        }
-    }
-
-    fun deleteHistory(history: SearchHistory) {
-        viewModelScope.launch {
-            searchRepository.delete(history)
+            if(history == null) {
+                searchRepository.deleteAll()
+            } else {
+                searchRepository.delete(history)
+            }
         }
     }
 }

@@ -5,7 +5,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -28,15 +30,14 @@ class MainActivity : AppCompatActivity() {
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            v.updatePadding(top = systemBars.top, bottom = 0)
             insets
         }
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_container) as NavHostFragment
+        val navHostFragment = supportFragmentManager.findFragmentById(binding.navContainer.id) as NavHostFragment
         navController = navHostFragment.navController
 
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_nav)
-        bottomNavigationView.setupWithNavController(navController)
+        binding.bottomNav.setupWithNavController(navController)
 
         appBarConfiguration = AppBarConfiguration(
             setOf(R.id.homeScreen, R.id.orderScreen)

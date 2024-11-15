@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/homeScreen"
-        android:name="com.zzunee.shoppingexample.view.favorite.FavoriteFragment"
+        android:name="com.zzunee.shoppingexample.view.fragment.FavoriteFragment"
         android:label="@string/title_home"
         app:route="@string/title_home">
 
@@ -18,7 +18,11 @@
         <!-- 즐겨찾기 -> 책 상세로 이동 -->
         <action
             android:id="@+id/action_favorite_to_detail"
-            app:destination="@id/bookDetailScreen" />
+            app:destination="@id/bookDetailScreen" >
+            <argument
+                android:name="book"
+                app:argType="com.zzunee.shoppingexample.model.network.data.Book" />
+        </action>
     </fragment>
 
     <navigation
@@ -27,7 +31,7 @@
 
         <fragment
             android:id="@+id/searchScreen"
-            android:name="com.zzunee.shoppingexample.view.search.SearchFragment"
+            android:name="com.zzunee.shoppingexample.view.fragment.SearchFragment"
             android:label="@string/title_search"
             app:route="@string/title_search">
 
@@ -36,26 +40,44 @@
                 android:id="@+id/action_search_to_result"
                 app:destination="@id/bookScreen"
                 app:popUpTo="@id/searchScreen"
-                app:popUpToInclusive="true" />
+                app:popUpToInclusive="true" >
+
+                <argument
+                    android:name="inputText"
+                    app:argType="string" />
+            </action>
         </fragment>
 
         <fragment
             android:id="@+id/bookScreen"
-            android:name="com.zzunee.shoppingexample.view.search.SearchBookFragment"
+            android:name="com.zzunee.shoppingexample.view.fragment.SearchBookFragment"
             android:label="@string/title_result"
             app:route="@string/title_result">
+
+            <argument
+                android:name="inputText"
+                app:argType="string" />
 
             <!-- 검색 결과 -> 책 상세로 이동 -->
             <action
                 android:id="@+id/action_result_to_detail"
-                app:destination="@id/bookDetailScreen" />
+                app:destination="@id/bookDetailScreen" >
+
+                <argument
+                    android:name="book"
+                    app:argType="com.zzunee.shoppingexample.model.network.data.Book" />
+            </action>
         </fragment>
     </navigation>
 
     <fragment
         android:id="@+id/bookDetailScreen"
-        android:name="com.zzunee.shoppingexample.view.book.BookDetailFragment"
+        android:name="com.zzunee.shoppingexample.view.fragment.BookDetailFragment"
         android:label="@string/title_book_detail"
         app:route="@string/title_book_detail">
+
+        <argument
+            android:name="book"
+            app:argType="com.zzunee.shoppingexample.model.network.data.Book" />
     </fragment>
 </navigation>

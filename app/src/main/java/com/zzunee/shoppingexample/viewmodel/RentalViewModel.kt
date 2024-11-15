@@ -2,52 +2,41 @@ package com.zzunee.shoppingexample.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.zzunee.shoppingexample.data.db.entity.RentalBook
-import com.zzunee.shoppingexample.data.network.BookItem
-import com.zzunee.shoppingexample.data.network.toRentalBook
-import com.zzunee.shoppingexample.data.repository.RentalRepository
+import com.zzunee.shoppingexample.model.db.entity.RentalBook
+import com.zzunee.shoppingexample.model.network.data.BookItem
+import com.zzunee.shoppingexample.model.repository.base.RentalRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Date
-import java.util.Locale
 
 class RentalViewModel(private val rentalRepository: RentalRepository) : ViewModel() {
-    private val _uiState = MutableStateFlow<UiState<Map<String, List<RentalBook>>>>(UiState.Loading)
-    val uiState: StateFlow<UiState<Map<String, List<RentalBook>>>> = _uiState
-    
+    private val _uiState = MutableStateFlow<UiState<Map<String, List<RentalBook>>>>(UiState.Empty)
+    val uiState: StateFlow<UiState<Map<String, List<RentalBook>>>>
+        get() = _uiState.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            rentalRepository.getAllRentalBook()
+                .catch { _uiState.value = UiState.Empty }
+                .collect { books ->
+                    _uiState.value = if (books.isEmpty()) UiState.Empty else UiState.Success(books)
+                }
+        }
+    }
+
+    // 책 대여
     fun rentBook(bookItem: BookItem, days: Int) {
         viewModelScope.launch {
-            val today = Date() // 대여일
-            val calendar = Calendar.getInstance()
-            calendar.time = today
-            calendar.add(Calendar.DAY_OF_YEAR, days)
-            val returnDate = calendar.time // 반납일
-
-            rentalRepository.rentBook(bookItem.toRentalBook(today, returnDate))
+            rentalRepository.rentBook(bookItem, days)
         }
     }
 
+    // 책 반납
     fun returnBook() {
-        _uiState.value = UiState.Loading
-
         viewModelScope.launch {
-            val today = Calendar.getInstance().time
-            println(today)
-            rentalRepository.returnBook(today)
-            getAllRentalBook()
-        }
-    }
-
-    private fun getAllRentalBook() {
-        viewModelScope.launch {
-            val bookList = rentalRepository.getAllRentalBook().first()
-            val dateFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
-            val bookMap = bookList.groupBy { dateFormat.format(it.returnDate) }
-            _uiState.value = UiState.Success(bookMap)
+            rentalRepository.returnBook()
         }
     }
 }

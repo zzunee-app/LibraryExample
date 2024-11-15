@@ -1,88 +1,100 @@
 package com.zzunee.shoppingexample.viewmodel
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.zzunee.shoppingexample.data.network.Book
-import com.zzunee.shoppingexample.data.network.BookItem
-import com.zzunee.shoppingexample.data.repository.BookRepository
-import com.zzunee.shoppingexample.data.repository.Repository.Result
+import com.zzunee.shoppingexample.model.network.data.Book
+import com.zzunee.shoppingexample.model.network.data.BookItem
+import com.zzunee.shoppingexample.model.repository.Result
+import com.zzunee.shoppingexample.model.repository.base.BookRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
 class BookViewModel(private val bookRepository: BookRepository) : ViewModel() {
-    private val _uiState = MutableStateFlow<UiState<List<Book>>>(UiState.Empty)
-    val uiState: StateFlow<UiState<List<Book>>> = _uiState
+    // 책 검색 결과
+    private val _searchUiState = MutableStateFlow<UiState<List<Book>>>(UiState.Empty)
+    val searchUiState: StateFlow<UiState<List<Book>>>
+        get() = _searchUiState.asStateFlow()
 
-    private val _favoriteUiState = MutableStateFlow<UiState<List<Book>>>(UiState.Empty)
-    val favoriteUiState: StateFlow<UiState<List<Book>>> = _favoriteUiState
-
+    // 책 상세 검색 결과
     private val _detailUiState = MutableStateFlow<UiState<Book>>(UiState.Empty)
-    val detailUiState: StateFlow<UiState<Book>> = _detailUiState
+    val detailUiState: StateFlow<UiState<Book>>
+        get() = _detailUiState.asStateFlow()
 
-    private val _selectedBook = MutableLiveData<Book>()
-    val selectedBook = _selectedBook
+    // 좋아요 책 리스트
+    private val _favoriteUiState = MutableStateFlow<UiState<List<Book>>>(UiState.Empty)
+    val favoriteUiState: StateFlow<UiState<List<Book>>>
+        get() = _favoriteUiState.asStateFlow()
 
-    // 검색어 기반으로 책 목록 불러오기
+    private var bookList: List<BookItem> = emptyList()
+
+    init {
+        viewModelScope.launch {
+            bookRepository.getAllFavoriteBooks()
+                .catch { _favoriteUiState.value = UiState.Empty }
+                .collect { favorites ->
+                    if(favorites.isEmpty()) {
+                        _favoriteUiState.value = UiState.Empty
+                    } else {
+                        _favoriteUiState.value = UiState.Success(favorites)
+
+                        // 책 검색 리스트 있으면 즐겨찾기 도서와 매칭
+                        if(_searchUiState.value is UiState.Success) {
+                            fetchSearchBooks(favorites)
+                        }
+                    }
+                }
+        }
+    }
+
+    // 검색어로 도서 리스트 호출
     fun getBookList(input: String) {
-        _uiState.value = UiState.Loading
+        _searchUiState.value = UiState.Loading
 
         viewModelScope.launch {
             when (val result = bookRepository.searchBook(input)) {
-                is Result.Empty -> _uiState.value = UiState.Empty
-                is Result.Error -> _uiState.value = UiState.Error(result.msg)
-                is Result.Success -> fetchFavoriteBook(result.data)
+                is Result.Error -> _searchUiState.value = UiState.Error(result.msg)
+                is Result.Empty -> _searchUiState.value = UiState.Empty
+                is Result.Success -> {
+                    bookList = result.data
+
+                    if(_favoriteUiState.value is UiState.Success) {
+                        fetchSearchBooks((_favoriteUiState.value as UiState.Success).item)
+                    } else {
+                        fetchSearchBooks()
+                    }
+                }
             }
         }
     }
 
-    // 현재 책 목록과 즐겨찾기 한 책 매칭
-    private fun fetchFavoriteBook(items: List<BookItem> = emptyList()) {
-        viewModelScope.launch {
-            bookRepository.fetchFavoriteBooks(items)
-                .catch { _uiState.value = UiState.Error() }
-                .collect { books ->
-                    _uiState.value = if(books.isEmpty()) UiState.Empty else UiState.Success(books)
-                }
-        }
-    }
-
-    // 즐겨찾기 한 책 목록 불러오기
-    fun getFavoriteBook() {
-        viewModelScope.launch {
-            bookRepository.getAllFavoriteBooks()
-                .catch { _favoriteUiState.value = UiState.Error() }
-                .collect { books ->
-                    _favoriteUiState.value = if(books.isEmpty()) UiState.Empty else UiState.Success(books)
-                }
-        }
+    private fun fetchSearchBooks(favorites: List<Book> = emptyList()) {
+        val books = bookRepository.fetchFavoriteBooks(bookList, favorites)
+        _searchUiState.value = if(books.isEmpty()) UiState.Empty else UiState.Success(books)
     }
 
     // 즐겨찾기 추가 & 삭제
     fun toggleFavorite(book: Book) {
         viewModelScope.launch {
-            println("book.isFavorite = ${book.isFavorite}")
             bookRepository.toggleFavoriteBook(book)
         }
     }
 
-    // 책 선택
-    fun selectBook(book: Book) {
-        _selectedBook.value = book
-    }
-
     // 책 상세 내용 불러오기
-    fun getBookDetail(book: Book) {
-        _detailUiState.value = UiState.Loading
+    fun getBookDetail(book: Book?) {
+        if (book == null) {
+            _detailUiState.value = UiState.Empty
+        } else {
+            _detailUiState.value = UiState.Loading
 
-        viewModelScope.launch {
-            _detailUiState.value = when (val result =
-                bookRepository.searchBookDetail(book.bookItem.title, book.bookItem.isbn)) {
-                is Result.Empty -> UiState.Error("요청한 데이터를 찾을 수 없습니다.")
-                is Result.Error -> UiState.Error(result.msg)
-                is Result.Success -> UiState.Success(Book(result.data.first(), book.isFavorite))
+            viewModelScope.launch {
+                _detailUiState.value = when (val result = bookRepository.searchBookDetail(book.bookItem.title, book.bookItem.isbn)) {
+                    is Result.Error -> UiState.Error(result.msg)
+                    is Result.Empty -> UiState.Empty
+                    is Result.Success -> UiState.Success(Book(result.data, book.isFavorite))
+                }
             }
         }
     }

@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.google.devtools.ksp)
     alias(libs.plugins.navigation.safe.args.kotlin)
+    alias(libs.plugins.kotlin.parcelize)
 }
 
 val properties = Properties().apply {

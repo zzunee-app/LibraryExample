@@ -3,9 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="book"
-            type="com.zzunee.shoppingexample.data.network.BookItem" />
+            type="com.zzunee.shoppingexample.model.network.data.BookItem" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -61,11 +62,12 @@
                 android:padding="@dimen/default_medium_margin"
                 android:visibility="gone">
 
-                <ImageView
+                <com.zzunee.shoppingexample.common.ui.NetworkImageView
                     android:id="@+id/img_cover"
                     android:layout_width="150dp"
                     android:layout_height="200dp"
                     android:scaleType="centerInside"
+                    app:imageUrl="@{book.image}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 

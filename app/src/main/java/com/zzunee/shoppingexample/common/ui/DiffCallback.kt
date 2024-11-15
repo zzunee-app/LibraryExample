@@ -2,16 +2,25 @@ package com.zzunee.shoppingexample.common.ui
 
 import android.annotation.SuppressLint
 import androidx.recyclerview.widget.DiffUtil
+import com.zzunee.shoppingexample.model.network.data.Book
 
-class DiffCallback<T: Any>(
-    private val areItemsSame: (T, T) -> Boolean = { old, new -> old == new },
-): DiffUtil.ItemCallback<T>() {
+abstract class DiffCallback<T: Any>: DiffUtil.ItemCallback<T>() {
     @SuppressLint("DiffUtilEquals")
     override fun areContentsTheSame(oldItem: T, newItem: T): Boolean {
         return oldItem == newItem
     }
+}
 
-    override fun areItemsTheSame(oldItem: T, newItem: T): Boolean {
-        return areItemsSame(oldItem, newItem)
+class BookDiffCallback: DiffCallback<Book>() {
+    override fun areItemsTheSame(old: Book, new: Book): Boolean {
+        val oldBookItem = old.bookItem
+        val newBookItem = new.bookItem
+        return (oldBookItem.title == newBookItem.title) && (oldBookItem.isbn == newBookItem.isbn)
+    }
+}
+
+class IntDiffCallback: DiffCallback<Int>() {
+    override fun areItemsTheSame(oldItem: Int, newItem: Int): Boolean {
+        return oldItem == newItem
     }
 }

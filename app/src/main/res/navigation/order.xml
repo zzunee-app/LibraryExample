@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/orderScreen"
-        android:name="com.zzunee.shoppingexample.view.order.OrderFragment"
+        android:name="com.zzunee.shoppingexample.view.fragment.OrderFragment"
         android:label="@string/title_order"
         app:route="@string/title_order" />
 </navigation>

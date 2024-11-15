@@ -1,7 +1,7 @@
 package com.zzunee.shoppingexample
 
 import android.app.Application
-import com.zzunee.shoppingexample.data.DataContainer
+import com.zzunee.shoppingexample.model.DataContainer
 
 class ShoppingApplication: Application() {
     lateinit var dataContainer: DataContainer

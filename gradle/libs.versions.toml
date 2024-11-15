@@ -1,7 +1,7 @@
 [versions]
 agp = "8.5.1"
 glide = "4.15.1"
-kotlin = "1.9.0"
+kotlin = "2.0.0"
 coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -14,7 +14,7 @@ moshiKotlin = "1.12.0"
 nav = "2.8.0"
 retrofit = "2.9.0"
 roomRuntime = "2.6.1"
-ksp = "1.9.0-1.0.13"
+ksp = "2.0.0-1.0.21"
 okHttp3 = "5.0.0-alpha.2"
 
 [libraries]
@@ -43,3 +43,4 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 navigation-safe-args-kotlin = { id = "androidx.navigation.safeargs.kotlin", version.ref = "nav" }
+kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin"}
