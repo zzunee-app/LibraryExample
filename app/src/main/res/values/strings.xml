@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ShoppingExample</string>
+    <string name="app_name">LibraryExample</string>
     <string name="title_home">홈</string>
     <string name="title_search">도서 검색</string>
     <string name="title_result">검색 결과</string>

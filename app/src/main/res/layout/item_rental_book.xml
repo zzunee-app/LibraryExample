@@ -6,7 +6,7 @@
 
         <variable
             name="book"
-            type="com.zzunee.shoppingexample.model.db.entity.RentalBook" />
+            type="com.zzunee.libraryexample.model.db.entity.RentalBook" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -21,7 +21,7 @@
             android:orientation="vertical"
             android:padding="@dimen/default_small_margin">
 
-            <com.zzunee.shoppingexample.common.ui.NetworkImageView
+            <com.zzunee.libraryexample.common.ui.NetworkImageView
                 android:id="@+id/iv_thumbnail"
                 android:layout_width="150dp"
                 android:layout_height="160dp"

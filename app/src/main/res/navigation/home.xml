@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/homeScreen"
-        android:name="com.zzunee.shoppingexample.view.fragment.FavoriteFragment"
+        android:name="com.zzunee.libraryexample.view.fragment.FavoriteFragment"
         android:label="@string/title_home"
         app:route="@string/title_home">
 
@@ -21,7 +21,7 @@
             app:destination="@id/bookDetailScreen" >
             <argument
                 android:name="book"
-                app:argType="com.zzunee.shoppingexample.model.network.data.Book" />
+                app:argType="com.zzunee.libraryexample.model.network.data.Book" />
         </action>
     </fragment>
 
@@ -31,7 +31,7 @@
 
         <fragment
             android:id="@+id/searchScreen"
-            android:name="com.zzunee.shoppingexample.view.fragment.SearchFragment"
+            android:name="com.zzunee.libraryexample.view.fragment.SearchFragment"
             android:label="@string/title_search"
             app:route="@string/title_search">
 
@@ -50,7 +50,7 @@
 
         <fragment
             android:id="@+id/bookScreen"
-            android:name="com.zzunee.shoppingexample.view.fragment.SearchBookFragment"
+            android:name="com.zzunee.libraryexample.view.fragment.SearchBookFragment"
             android:label="@string/title_result"
             app:route="@string/title_result">
 
@@ -65,19 +65,19 @@
 
                 <argument
                     android:name="book"
-                    app:argType="com.zzunee.shoppingexample.model.network.data.Book" />
+                    app:argType="com.zzunee.libraryexample.model.network.data.Book" />
             </action>
         </fragment>
     </navigation>
 
     <fragment
         android:id="@+id/bookDetailScreen"
-        android:name="com.zzunee.shoppingexample.view.fragment.BookDetailFragment"
+        android:name="com.zzunee.libraryexample.view.fragment.BookDetailFragment"
         android:label="@string/title_book_detail"
         app:route="@string/title_book_detail">
 
         <argument
             android:name="book"
-            app:argType="com.zzunee.shoppingexample.model.network.data.Book" />
+            app:argType="com.zzunee.libraryexample.model.network.data.Book" />
     </fragment>
 </navigation>

@@ -6,7 +6,7 @@
 
         <variable
             name="book"
-            type="com.zzunee.shoppingexample.model.network.data.BookItem" />
+            type="com.zzunee.libraryexample.model.network.data.BookItem" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,7 +14,7 @@
         android:layout_height="120dp"
         android:padding="@dimen/default_medium_margin">
 
-        <com.zzunee.shoppingexample.common.ui.NetworkImageView
+        <com.zzunee.libraryexample.common.ui.NetworkImageView
             android:id="@+id/iv_thumbnail"
             android:layout_width="64dp"
             android:layout_height="match_parent"

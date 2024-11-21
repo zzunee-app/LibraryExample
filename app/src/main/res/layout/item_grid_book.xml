@@ -6,7 +6,7 @@
     <data>
         <variable
             name="book"
-            type="com.zzunee.shoppingexample.model.network.data.BookItem" />
+            type="com.zzunee.libraryexample.model.network.data.BookItem" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -28,7 +28,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <com.zzunee.shoppingexample.common.ui.NetworkImageView
+                <com.zzunee.libraryexample.common.ui.NetworkImageView
                     android:layout_width="match_parent"
                     android:layout_height="160dp"
                     android:scaleType="center"

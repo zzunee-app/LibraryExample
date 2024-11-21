@@ -13,11 +13,11 @@ val properties = Properties().apply {
 }
 
 android {
-    namespace = "com.zzunee.shoppingexample"
+    namespace = "com.zzunee.libraryexample"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.zzunee.shoppingexample"
+        applicationId = "com.zzunee.libraryexample"
         minSdk = 24
         versionCode = 1
         versionName = "1.0"

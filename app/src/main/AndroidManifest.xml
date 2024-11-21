@@ -5,13 +5,13 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".ShoppingApplication"
+        android:name=".LibraryApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ShoppingExample"
+        android:theme="@style/Theme.LibraryExample"
         tools:targetApi="31">
         <activity
             android:name=".view.MainActivity"
