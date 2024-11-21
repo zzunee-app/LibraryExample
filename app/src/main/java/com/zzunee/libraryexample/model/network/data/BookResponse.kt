@@ -1,6 +1,6 @@
 package com.zzunee.libraryexample.model.network.data
 
-import com.zzunee.libraryexample.common.Utils
+import com.zzunee.libraryexample.common.Util
 import com.zzunee.libraryexample.model.db.entity.RentalBook
 import com.zzunee.libraryexample.model.db.entity.FavoriteBook
 import java.util.Date
@@ -24,7 +24,7 @@ data class BookItem(
     val publisher: String = "",
     val title: String
 ) {
-    fun formattedPrice() = Utils.formattedPrice(discount)
+    fun formattedPrice() = Util.formattedPrice(discount)
     fun formattedPublisherWithDate() = String.format("%s | %s년 %s월 %s일", publisher, pubdate.substring(0, 4), pubdate.substring(4, 6), pubdate.substring(6, 8))
 }
 

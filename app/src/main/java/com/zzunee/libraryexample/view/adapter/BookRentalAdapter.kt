@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.zzunee.libraryexample.common.ui.IntDiffCallback
+import com.zzunee.libraryexample.common.utils.IntDiffCallback
 import com.zzunee.libraryexample.databinding.ItemSelectedBinding
 
 class BookRentalAdapter(private val onItemClicked: (Int) -> Unit) :

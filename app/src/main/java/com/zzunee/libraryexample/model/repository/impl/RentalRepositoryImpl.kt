@@ -20,9 +20,9 @@ class RentalRepositoryImpl(
     override fun getAllRentalBook(): Flow<Map<String, List<RentalBook>>> =
         bookRentalDao.getAll().map { books ->
             val dateFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
-            books.groupBy {  dateFormat.format(it.returnDate) }
+            books.groupBy {  dateFormat.format(it.returnDate) }.toSortedMap()
         }.catch {
-            emit(emptyMap())
+            emit(sortedMapOf())
         }
 
     override suspend fun rentBook(bookItem: BookItem, days: Int) {

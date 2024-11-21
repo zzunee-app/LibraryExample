@@ -16,7 +16,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.zzunee.libraryexample.R
-import com.zzunee.libraryexample.common.Utils
+import com.zzunee.libraryexample.common.Util
 import com.zzunee.libraryexample.common.ui.GridItemDecoration
 import com.zzunee.libraryexample.databinding.FragmentFavoriteBinding
 import com.zzunee.libraryexample.view.adapter.GridBookAdapter
@@ -91,7 +91,7 @@ class FavoriteFragment : Fragment() {
         binding.favoriteListView.apply {
             val GRID_COUNT = 2
             layoutManager = GridLayoutManager(context, GRID_COUNT)
-            addItemDecoration(GridItemDecoration(GRID_COUNT, Utils.dpToPx(16), true))
+            addItemDecoration(GridItemDecoration(GRID_COUNT, Util.dpToPx(16), true))
             adapter = favoriteAdapter
         }
     }

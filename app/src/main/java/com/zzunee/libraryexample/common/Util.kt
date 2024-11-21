@@ -6,7 +6,7 @@ import java.util.Date
 import java.util.Locale
 
 
-object Utils {
+object Util {
     fun dpToPx(dp: Int): Int {
         val metrics = Resources.getSystem().displayMetrics
         return (dp * metrics.density).toInt()

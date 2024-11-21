@@ -28,7 +28,7 @@ import com.zzunee.libraryexample.viewmodel.ViewModelFactory
  * 선택한 책의 상세 내용을 API 호출
  * 하단 플로팅 버튼을 통해 대여 가능
  */
-class BookDetailFragment : Fragment(), BookRentalBottomFragment.OnDialogClickListener {
+class BookDetailFragment : Fragment() {
     private lateinit var binding: FragmentBookDetailBinding
     private val bookViewModel: BookViewModel by navGraphViewModels(R.id.home) { ViewModelFactory }
     private val rentalViewModel by viewModels<RentalViewModel> { ViewModelFactory }
@@ -73,8 +73,12 @@ class BookDetailFragment : Fragment(), BookRentalBottomFragment.OnDialogClickLis
     private fun showRentalDialog() {
 
         if(parentFragmentManager.findFragmentByTag(BookRentalBottomFragment.TAG) == null) {
-            val modalDialog = BookRentalBottomFragment()
-            modalDialog.setDialogClickListener(this)
+            val modalDialog = BookRentalBottomFragment { days ->
+                // 대여하기
+                selectedBook?.let {
+                    rentalViewModel.rentBook(it.bookItem, days)
+                } ?: Toast.makeText(requireContext(), getString(R.string.common_error), Toast.LENGTH_SHORT).show()
+            }
             modalDialog.show(parentFragmentManager, BookRentalBottomFragment.TAG)
         }
     }
@@ -95,14 +99,5 @@ class BookDetailFragment : Fragment(), BookRentalBottomFragment.OnDialogClickLis
         binding.contentsLayout.visibility = View.VISIBLE
         println(book)
         binding.book = book
-    }
-
-    override fun onConfirm(days: Int) {
-        // 대여하기
-        if (selectedBook == null) {
-            Toast.makeText(context, getString(R.string.common_error), Toast.LENGTH_SHORT).show()
-        } else {
-            rentalViewModel.rentBook(selectedBook!!.bookItem, days)
-        }
     }
 }

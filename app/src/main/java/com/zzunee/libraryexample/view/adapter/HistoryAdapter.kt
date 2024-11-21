@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.zzunee.libraryexample.common.ui.DiffCallback
+import com.zzunee.libraryexample.common.utils.DiffCallback
 import com.zzunee.libraryexample.model.db.entity.SearchHistory
 import com.zzunee.libraryexample.databinding.ItemSearchHistoryBinding
 

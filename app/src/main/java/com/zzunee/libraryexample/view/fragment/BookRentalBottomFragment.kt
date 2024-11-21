@@ -13,18 +13,9 @@ import com.zzunee.libraryexample.view.adapter.BookRentalAdapter
  * 책 대여 화면 (모달 바텀 프래그먼트)
  * 선택한 책의 대여 기간 선택
  */
-class BookRentalBottomFragment : BottomSheetDialogFragment() {
-    interface OnDialogClickListener {
-        fun onConfirm(days: Int)
-    }
-
+class BookRentalBottomFragment(val onItemClicked: (Int) -> Unit) : BottomSheetDialogFragment() {
     private lateinit var binding: FragmentRentalBinding
-    private var listener: OnDialogClickListener? = null
     private var days = 1
-
-    fun setDialogClickListener(listener: OnDialogClickListener) {
-        this.listener = listener
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,7 +37,7 @@ class BookRentalBottomFragment : BottomSheetDialogFragment() {
         }
 
         binding.btnConfirm.setOnClickListener {
-            listener?.onConfirm(days)
+            onItemClicked(days)
             dismiss()
         }
 
@@ -54,11 +45,6 @@ class BookRentalBottomFragment : BottomSheetDialogFragment() {
             layoutManager = LinearLayoutManager(context)
             adapter = rentalAdapter
         }
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        listener = null
     }
 
     companion object {

@@ -2,9 +2,10 @@ package com.zzunee.libraryexample.view.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.zzunee.libraryexample.common.Utils
+import com.zzunee.libraryexample.common.Util
 import com.zzunee.libraryexample.common.ui.SpacingItemDecoration
 import com.zzunee.libraryexample.model.db.entity.RentalBook
 import com.zzunee.libraryexample.databinding.ItemRentalVerticalBinding
@@ -14,9 +15,11 @@ class RentalBookAdapter: RecyclerView.Adapter<VerticalHolder>() {
     private var sortedKeys: List<String> = emptyList()
 
     fun setList(items: Map<String, List<RentalBook>>) {
+        val diffCallback = RentalBookMapDiffCallback(bookList, items)
+        val result = DiffUtil.calculateDiff(diffCallback)
         bookList = items
-        sortedKeys = bookList.keys.sorted()
-        notifyDataSetChanged()
+        sortedKeys = bookList.keys.toList()
+        result.dispatchUpdatesTo(this)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalHolder {
@@ -34,16 +37,41 @@ class RentalBookAdapter: RecyclerView.Adapter<VerticalHolder>() {
 }
 
 class VerticalHolder(private val binding: ItemRentalVerticalBinding) : RecyclerView.ViewHolder(binding.root) {
-    fun bind(key: String, bookList: Map<String, List<RentalBook>>) {
-        binding.txtDate.text = "반납일 : $key"
+    private val horizontalAdapter by lazy { RentalBookHorizontalAdapter() }
 
-        val horizontalAdapter = RentalBookHorizontalAdapter()
+    init {
         binding.listHorizontal.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            addItemDecoration(SpacingItemDecoration(Utils.dpToPx(16), true))
+            addItemDecoration(SpacingItemDecoration(Util.dpToPx(16), true))
             adapter = horizontalAdapter
         }
+    }
 
-        horizontalAdapter.setList(bookList[key]!!)
+    fun bind(key: String, bookList: Map<String, List<RentalBook>>) {
+        binding.txtDate.text = "반납일 : $key"
+        horizontalAdapter.submitList(bookList[key])
+    }
+}
+
+class RentalBookMapDiffCallback(
+    private val oldMap: Map<String, List<RentalBook>>,
+    private val newMap: Map<String, List<RentalBook>>
+) : DiffUtil.Callback() {
+
+    private val oldKeys = oldMap.keys.toList()
+    private val newKeys = newMap.keys.toList()
+
+    override fun getOldListSize(): Int = oldKeys.size
+    override fun getNewListSize(): Int = newKeys.size
+
+    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        return oldKeys[oldItemPosition] == newKeys[newItemPosition]
+    }
+
+    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        val oldKey = oldKeys[oldItemPosition]
+        val newKey = newKeys[newItemPosition]
+
+        return oldMap[oldKey] == newMap[newKey]
     }
 }

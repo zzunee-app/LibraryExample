@@ -10,7 +10,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.zzunee.libraryexample.common.Utils
+import com.zzunee.libraryexample.common.Util
 import com.zzunee.libraryexample.common.ui.SpacingItemDecoration
 import com.zzunee.libraryexample.model.db.entity.RentalBook
 import com.zzunee.libraryexample.databinding.FragmentOrderBinding
@@ -35,7 +35,7 @@ class OrderFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentOrderBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -58,7 +58,7 @@ class OrderFragment : Fragment() {
 
         binding.listRental.apply {
             layoutManager = LinearLayoutManager(context)
-            addItemDecoration(SpacingItemDecoration(Utils.dpToPx(16)))
+            addItemDecoration(SpacingItemDecoration(Util.dpToPx(16)))
             adapter = rentalAdapter
         }
 

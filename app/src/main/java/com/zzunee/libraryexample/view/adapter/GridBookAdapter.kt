@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.zzunee.libraryexample.common.ui.BookDiffCallback
+import com.zzunee.libraryexample.common.utils.BookDiffCallback
 import com.zzunee.libraryexample.databinding.ItemGridBookBinding
 import com.zzunee.libraryexample.model.network.data.Book
 

@@ -2,7 +2,7 @@ package com.zzunee.libraryexample.model.db.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.zzunee.libraryexample.common.Utils
+import com.zzunee.libraryexample.common.Util
 import java.util.Date
 
 @Entity(tableName = "rental_book")
@@ -16,5 +16,5 @@ data class RentalBook(
     val rentalDate: Date,
     val returnDate: Date,
 ) {
-    fun formattedRentalDate() = Utils.formattedDate(rentalDate)
+    fun formattedRentalDate() = Util.formattedDate(rentalDate)
 }
