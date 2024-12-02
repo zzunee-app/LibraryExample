@@ -1,4 +1,4 @@
-### 개요
+### ✏️ 개요
 **1. 서비스 컨셉**
    - 책을 검색하고 대여할 수 있는 어플리케이션
 
@@ -17,11 +17,11 @@
 
 
 
-### 필수 추가 내용 : local.properties 내 파라미터 선언
+### ✏️ 필수 추가 내용 : local.properties 내 파라미터 선언
 1. NAVER_OPEN_API_BASE_URL : Naver OpenApi url
 2. NAVER_CLIENT_ID : 발급 받은 네이버 개발자 클라이언트 아이디
 3. NAVER_CLIENT_SECRET : 발급 받은 네이버 개발자 시크릿 코드
 
 
-### 실행 결과
+### ✏️ 실행 결과
 <img width="980" alt="LibraryExample 이미지" src="https://github.com/user-attachments/assets/940edaa4-bd61-4872-aa80-11aef61cfe14">
